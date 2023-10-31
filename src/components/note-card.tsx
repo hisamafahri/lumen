@@ -15,6 +15,7 @@ import { IconButton } from "./icon-button"
 import {
   CopyIcon16,
   EditIcon16,
+  MaximizeIcon16,
   ExternalLinkIcon16,
   MoreIcon16,
   ShareIcon16,
@@ -97,18 +98,6 @@ export function NoteCard({ id, elevation, selected = false }: NoteCardProps) {
     }
   }, [])
 
-  const openNoteWindow = React.useCallback((id: string) => {
-    const newWindowWidth = 600
-    const newWindowHeight = 600
-    window.open(
-      `/${id}?fullscreen=true`,
-      `${id}`,
-      `width=${newWindowWidth}, height=${newWindowHeight}, top=${
-        window.screen.height / 2 - newWindowHeight / 2
-      }, left=${window.screen.width / 2 - newWindowWidth / 2}`,
-    )
-  }, [])
-
   const handleDeleteNote = React.useCallback(
     (id: string) => {
       // Move focus
@@ -172,10 +161,10 @@ export function NoteCard({ id, elevation, selected = false }: NoteCardProps) {
           }
 
           // Open note in new window with `command + o`
-          if (event.metaKey && event.key === "o") {
-            openNoteWindow(id)
-            event.preventDefault()
-          }
+          // if (event.metaKey && event.key === "o") {
+          //   openNoteWindow(id)
+          //   event.preventDefault()
+          // }
         }}
       >
         <div className="flex items-center justify-between border-b border-dashed border-border-secondary p-2 ">
@@ -205,6 +194,9 @@ export function NoteCard({ id, elevation, selected = false }: NoteCardProps) {
               <DropdownMenu.Item icon={<EditIcon16 />} onSelect={switchToEditing} shortcut={["E"]}>
                 Edit
               </DropdownMenu.Item>
+              <DropdownMenu.Item icon={<MaximizeIcon16 />} shortcut={["⌘", "O"]}>
+                Open in fullscreen
+              </DropdownMenu.Item>
               <DropdownMenu.Separator />
               <DropdownMenu.Item
                 icon={<CopyIcon16 />}
@@ -221,13 +213,6 @@ export function NoteCard({ id, elevation, selected = false }: NoteCardProps) {
                 Copy ID
               </DropdownMenu.Item>
               <DropdownMenu.Separator />
-              <DropdownMenu.Item
-                icon={<ExternalLinkIcon16 />}
-                onSelect={() => openNoteWindow(id)}
-                shortcut={["⌘", "O"]}
-              >
-                Open in new window
-              </DropdownMenu.Item>
               <DropdownMenu.Item
                 icon={<ExternalLinkIcon16 />}
                 href={`https://github.com/${githubRepo?.owner}/${githubRepo?.name}/blob/main/${id}.md`}

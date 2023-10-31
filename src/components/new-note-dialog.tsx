@@ -8,7 +8,6 @@ import { DraggableCore } from "react-draggable"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useEvent, useMedia } from "react-use"
 import { githubRepoAtom, githubUserAtom } from "../global-atoms"
-import { openNewWindow } from "../utils/open-new-window"
 import { useIsFullscreen } from "../utils/use-is-fullscreen"
 import { IconButton } from "./icon-button"
 import { ComposeFillIcon24, ComposeIcon24 } from "./icons"
@@ -108,10 +107,10 @@ function Provider({ children }: { children: React.ReactNode }) {
     }
 
     // Open /new in new window with `command + shift + i`
-    if (event.key === "i" && event.metaKey && event.shiftKey && !disabled) {
-      openNewWindow("/new")
-      event.preventDefault()
-    }
+    // if (event.key === "i" && event.metaKey && event.shiftKey && !disabled) {
+    //   openNewWindow("/new")
+    //   event.preventDefault()
+    // }
   })
 
   const contextValue = React.useMemo(

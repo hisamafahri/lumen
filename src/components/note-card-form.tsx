@@ -11,7 +11,7 @@ import { Button } from "./button"
 import { Card, CardProps } from "./card"
 import { FileInputButton } from "./file-input-button"
 import { IconButton } from "./icon-button"
-import { PaperclipIcon16 } from "./icons"
+import { MaximizeIcon16, PaperclipIcon16 } from "./icons"
 import { NoteEditor } from "./note-editor"
 
 type NoteCardFormProps = {
@@ -154,6 +154,9 @@ export function NoteCardForm({
             <div className="flex items-center justify-between border-b border-dashed border-border-secondary p-2">
               <span className="px-2 font-mono tracking-wide text-text-secondary">{id}.md</span>
               <div className="flex gap-2">
+                <IconButton aria-label="Open in fullscreen" shortcut={["⌘", "O"]}>
+                  <MaximizeIcon16 />
+                </IconButton>
                 {onCancel ? (
                   <Button shortcut={["esc"]} onClick={handleCancel}>
                     Cancel
