@@ -10,7 +10,16 @@ import { CommandMenu } from "../components/command-menu"
 import { DropdownMenu } from "../components/dropdown-menu"
 import { FullscreenContainer } from "../components/fullscreen-container"
 import { FullscreenNoteForm } from "../components/fullscreen-note-form"
-import { CopyIcon16, EditIcon16, ExternalLinkIcon16, NoteIcon16 } from "../components/icons"
+import {
+  ChevronLeftIcon16,
+  ChevronRightIcon16,
+  CopyIcon16,
+  EditIcon16,
+  ExternalLinkIcon16,
+  MinimizeIcon16,
+  MoreIcon16,
+  NoteIcon16,
+} from "../components/icons"
 import { Markdown } from "../components/markdown"
 import { Panels } from "../components/panels"
 import { githubRepoAtom } from "../global-atoms"
@@ -19,10 +28,73 @@ import { useUpsertNote } from "../utils/github-sync"
 import { useIsFullscreen } from "../utils/use-is-fullscreen"
 import { useNoteById } from "../utils/use-note-by-id"
 import { useSearchParam } from "../utils/use-search-param"
+import * as Dialog from "@radix-ui/react-dialog"
+import { IconButton } from "../components/icon-button"
+import { NoteList } from "../components/note-list"
+import { Button } from "../components/button"
+import { NoteEditor } from "../components/note-editor"
 
 export function NotePage() {
   const isFullscreen = useIsFullscreen()
   const params = useParams()
+
+  const { "*": noteId = "" } = params
+  const note = useNoteById(noteId)
+
+  return (
+    <Dialog.Root open onOpenChange={() => {}}>
+      <Dialog.Content className="fixed inset-0 overflow-auto bg-bg outline-none">
+        <header className="xborder-b sticky top-0 z-10 grid grid-cols-3 items-center justify-between border-border-secondary bg-gradient-to-b from-bg to-bg-backdrop p-2 backdrop-blur-md">
+          <div className="flex gap-2 justify-self-start">
+            <IconButton aria-label="Exit fullscreen" shortcut={["esc"]}>
+              <MinimizeIcon16 />
+            </IconButton>
+            <div>
+              <IconButton
+                aria-label="Back"
+                // onClick={() => navigate(-1)}
+                shortcut={["⌘", "["]}
+                disabled
+                // TODO: Disable when at the beginning of history
+              >
+                <ChevronLeftIcon16 />
+              </IconButton>
+              <IconButton
+                aria-label="Forward"
+                // onClick={() => navigate(1)}
+                shortcut={["⌘", "]"]}
+                disabled
+                // TODO: Disable when at the end of history
+              >
+                <ChevronRightIcon16 />
+              </IconButton>
+            </div>
+          </div>
+          <span className="justify-self-center truncate font-mono tracking-wide text-text-secondary">
+            {noteId}.md
+          </span>
+          <div className="flex gap-2 justify-self-end">
+            <IconButton aria-label="Note actions" shortcut={["⌘", "."]}>
+              <MoreIcon16 />
+            </IconButton>
+            {/* <Button>Cancel</Button>
+            <Button variant="primary">Save</Button> */}
+          </div>
+        </header>
+        {/* <div className="grid grid-cols-2"> */}
+        <div className=" p-4 md:p-10 lg:p-12">
+          <div className="mx-auto max-w-3xl">
+            <NoteEditor defaultValue={note?.rawBody ?? ""} />
+            {/* <Markdown>{note?.rawBody ?? ""}</Markdown> */}
+
+            {/* </div>
+          <div className=" p-4 md:p-10 lg:p-12">
+            <Markdown>{note?.rawBody ?? ""}</Markdown> */}
+          </div>
+        </div>
+      </Dialog.Content>
+    </Dialog.Root>
+  )
 
   if (isFullscreen) {
     return (

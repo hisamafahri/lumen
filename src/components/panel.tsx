@@ -139,7 +139,7 @@ export function Panel({ id, title, description, icon, actions, children, onClose
       </div>
       {/* translateZ(0) fixes a bug in Safari where the scrollbar would appear underneath the sticky header */}
       <div className="flex h-full scroll-pb-4 scroll-pt-[4.5rem] flex-col overflow-auto coarse:[-webkit-transform:translateZ(0)]">
-        <div
+        <header
           className={
             "sticky top-0 z-10 flex h-12 shrink-0 items-center justify-between gap-2 border-b border-border-secondary bg-gradient-to-b from-bg-inset to-bg-inset-backdrop p-2 pl-4 backdrop-blur-md coarse:h-14"
           }
@@ -170,7 +170,7 @@ export function Panel({ id, title, description, icon, actions, children, onClose
               </IconButton>
             ) : null}
           </div>
-        </div>
+        </header>
         <div className="flex-grow">{children}</div>
       </div>
     </div>
